@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>PABT · Guía para personas desorientadas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+    :root {
+      --bg:#03020a;
+      --accent:#d37cff;
+      --accent-2:#6dbbff;
+      --text:#f5f3ff;
+      --muted:#b7b1c7;
+      --border:rgba(255,255,255,.12);
+      --card:rgba(255,255,255,.05);
+    }
+    * { box-sizing:border-box; margin:0; font-family:'Space Grotesk',sans-serif; }
+    body {
+      background:radial-gradient(circle at 80% 10%,rgba(109,187,255,.18),transparent 35%),radial-gradient(circle at 20% 20%,rgba(211,124,255,.25),transparent 45%),var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      line-height:1.6;
+      overflow-x:hidden;
+    }
+    .stars::before,.stars::after {
+      content:""; position:fixed; inset:0; background-image:radial-gradient(rgba(255,255,255,.45) 1px,transparent 1px); background-size:140px 140px; opacity:.12; animation:slow-pan 35s linear infinite; pointer-events:none;
+    }
+    .stars::after { opacity:.07; background-size:220px 220px; animation-duration:55s; }
+    @keyframes slow-pan { from { transform:translate3d(0,0,0);} to { transform:translate3d(-90px,-70px,0);} }
+    nav { position:sticky; top:0; display:flex; align-items:center; justify-content:space-between; padding:1rem 5vw; background:rgba(3,2,10,.9); border-bottom:1px solid var(--border); backdrop-filter:blur(20px); z-index:10; }
+    .logo { display:flex; align-items:center; gap:.75rem; }
+    .logo svg { width:120px; height:42px; }
+    .logo span { letter-spacing:.3em; font-size:.75rem; text-transform:uppercase; color:var(--muted); }
+    .nav-links { list-style:none; display:flex; gap:1.5rem; }
+    .nav-links a { color:var(--muted); text-decoration:none; font-weight:500; position:relative; }
+    .nav-links a::after { content:""; position:absolute; left:0; bottom:-4px; width:100%; height:2px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); transform:scaleX(0); transform-origin:left; transition:.3s; }
+    .nav-links a:hover { color:var(--text); }
+    .nav-links a:hover::after { transform:scaleX(1); }
+    .pill { padding:.8rem 1.6rem; border-radius:999px; background:linear-gradient(120deg,var(--accent),var(--accent-2)); color:#05030d; font-weight:600; text-decoration:none; }
+    main { max-width:1200px; margin:0 auto; padding:0 5vw 5rem; }
+    section { padding:4rem 0; }
+    .hero { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:3rem; align-items:center; padding:5rem 0 3rem; }
+    .badge { display:inline-flex; align-items:center; gap:.4rem; padding:.4rem 1rem; border-radius:999px; border:1px solid var(--border); font-size:.85rem; color:var(--muted); margin-bottom:1rem; animation:fadeUp .6s ease both; }
+    h1 { font-size:clamp(2.6rem,6vw,4.4rem); line-height:1.1; margin-bottom:1rem; animation:fadeUp .6s .05s both; }
+    .lead { color:var(--muted); max-width:540px; margin-bottom:2rem; animation:fadeUp .6s .1s both; }
+    .cta { display:flex; gap:1rem; flex-wrap:wrap; animation:fadeUp .6s .15s both; }
+    .btn { padding:1rem 2rem; border-radius:999px; font-weight:600; text-decoration:none; border:1px solid transparent; transition:.25s ease; }
+    .btn.primary { background:linear-gradient(120deg,var(--accent),var(--accent-2)); color:#05030d; box-shadow:0 20px 40px rgba(211,124,255,.25); }
+    .btn.secondary { border-color:var(--border); color:var(--text); }
+    .btn:hover { transform:translateY(-3px); }
+    .hero-visual { border-radius:2rem; background:linear-gradient(160deg,rgba(211,124,255,.4),rgba(109,187,255,.2)); padding:1rem; position:relative; animation:float 6s ease-in-out infinite; }
+    .hero-visual img { width:100%; border-radius:1.5rem; display:block; object-fit:cover; height:100%; min-height:320px; filter:saturate(1.1); }
+    @keyframes float { 0%{ transform:translateY(0);} 50%{ transform:translateY(-10px);} 100%{ transform:translateY(0);} }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(20px);} to { opacity:1; transform:translateY(0);} }
+    .section-title { text-transform:uppercase; letter-spacing:.25em; font-size:.85rem; color:var(--muted); margin-bottom:1rem; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:1.3rem; padding:1.6rem; position:relative; overflow:hidden; }
+    .card::after { content:""; position:absolute; inset:0; border-radius:inherit; background:radial-gradient(circle at 20% 20%,rgba(255,255,255,.1),transparent 60%); opacity:0; transition:.3s; }
+    .card:hover::after { opacity:1; }
+    `.card h3 { margin-bottom:.6rem; color:#fdfbff; }
+    .session-flow { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.3rem; margin-top:1.5rem; }
+    .session-step { background:var(--card); border:1px solid var(--border); border-radius:1.5rem; padding:1.5rem; position:relative; overflow:hidden; }
+    .session-step::before { content:attr(data-step); position:absolute; top:1rem; right:1.5rem; font-size:2.2rem; font-weight:700; color:rgba(255,255,255,.08); }
+    .session-step h3 { margin-bottom:.5rem; color:#fff; }
+    .session-step p { color:var(--muted); }
+    .promise-grid, .services-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.5rem; }
+    .services-grid article { padding:0; }
+    .service-media { height:180px; border-radius:1.3rem 1.3rem 0 0; background-size:cover; background-position:center; }
+    .service-body { padding:1.5rem; }
+    .about { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:2rem; align-items:center; }
+    .about .bubble { background:var(--card); border:1px solid var(--border); border-radius:1.5rem; padding:2rem; }
+    .impact-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1.3rem; }
+
+    
+    .impact-stat { position:relative; padding:2rem 1.5rem; border-radius:1.4rem; border:1px solid var(--border); background:rgba(255,255,255,.03); overflow:hidden; text-align:center; }
+    .impact-stat::after { content:""; position:absolute; inset:0; background:radial-gradient(circle at 20% 20%,rgba(255,255,255,.12),transparent 60%); opacity:.4; pointer-events:none; }
+    .impact-stat h3 { font-size:2.4rem; margin-bottom:.5rem; color:#fff; }
+    .impact-stat p { color:var(--muted); }
+
+    .contact { background:linear-gradient(135deg,rgba(211,124,255,.25),rgba(6,5,25,.95)); border-radius:1.8rem; padding:3rem; border:1px solid rgba(255,255,255,.2); text-align:center; }
+    .contact h2 { font-size:2.2rem; margin-bottom:1rem; }
+    .contact p { color:var(--muted); margin-bottom:2rem; }
+    footer { text-align:center; padding:2rem 0 3rem; color:var(--muted); border-top:1px solid var(--border); }
+    @media(max-width:900px){
+      nav { flex-wrap:wrap; gap:1rem; }
+      .nav-links { flex-wrap:wrap; justify-content:center; width:100%; order:3; margin-top:.5rem; }
+      .pill { width:100%; text-align:center; }
+    }
+    @media(max-width:600px){
+      nav { padding:.8rem 6vw; position:static; }
+      .logo span { display:none; }
+      main { padding:0 6vw 4rem; }
+      section { padding:3rem 0; }
+      .hero { padding:3.5rem 0 2rem; }
+      h1 { font-size:2.4rem; }
+      .lead { font-size:1rem; }
+      .cta { flex-direction:column; }
+      .btn { width:100%; text-align:center; }
+      .promise-grid, .services-grid { grid-template-columns:1fr; }
+      .about, .impact-grid { grid-template-columns:1fr; }
+      .hero-visual img { min-height:220px; }
+    }
+  </style>
+</head>
+<body class="stars">
+  <nav>
+    <div class="logo">
+      <svg viewBox="0 0 160 50" role="img" aria-label="PABT logo">
+        <defs>
+          <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#d37cff" />
+            <stop offset="100%" stop-color="#6dbbff" />
+          </linearGradient>
+        </defs>
+        <path d="M5 40 L5 10 L30 10 Q45 10 45 25 Q45 40 30 40 Z" fill="url(#grad)" opacity=".9" />
+        <rect x="55" y="10" width="20" height="30" rx="6" fill="url(#grad)" opacity=".6" />
+        <rect x="80" y="10" width="50" height="8" rx="4" fill="url(#grad)" />
+        <rect x="80" y="22" width="50" height="8" rx="4" fill="url(#grad)" opacity=".8" />
+        <rect x="80" y="34" width="50" height="8" rx="4" fill="url(#grad)" opacity=".6" />
+        <rect x="135" y="10" width="20" height="30" rx="6" fill="url(#grad)" opacity=".9" />
+      </svg>
+      <span>PABT ritual studio</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#proceso">Proceso</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <a class="pill" href="https://wa.me/3512550313" target="_blank" rel="noopener">Agenda tu charla</a>
+  </nav>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div>
+        <span class="badge">Acompañamiento de tarot 1:1</span>
+        <h1>Del caos a la claridad.</h1>
+        <p class="lead">Me escribís, te escucho y con la ayuda del Tarot, Canalización, Biodecodificación y Constelaciones Familiares armamos pasos simples para que vuelvas a confiar en tus decisiones.</p>
+        <div class="cta">
+          <a class="btn primary" href="https://wa.me/3512550313" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+          <a class="btn secondary" href="mailto:bruja@example.com">Escribir email</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80" alt="Árbol de la vida" />
+      </div>
+    </section>
+
+        <section id="servicios">
+      <p class="section-title">Herramientas que integran la sesión</p>
+      <div class="services-grid">
+        <article class="card">
+          <div class="service-media" style="background-image:url('https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=80');"></div>
+          <div class="service-body">
+            <h3>Tarot terapéutico</h3>
+            <p>Lecturas profundas que iluminan tu mapa interno y te muestran el próximo paso viable.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="service-media" style="background-image:url('https://images.unsplash.com/photo-1470104240373-bc1812eddc9f?auto=format&fit=crop&w=900&q=80');"></div>
+          <div class="service-body">
+            <h3>Canalización</h3>
+            <p>Mensajes intuitivos que bajan claridad emocional y confirman lo que necesitás escuchar.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="service-media" style="background-image:url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=900&q=80');"></div>
+          <div class="service-body">
+            <h3>Biodecodificación</h3>
+            <p>Identificamos el conflicto biológico detrás del síntoma para liberarlo con acciones simples.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="service-media" style="background-image:url('https://images.unsplash.com/photo-1482192505345-5655af888cc4?auto=format&fit=crop&w=900&q=80');"></div>
+          <div class="service-body">
+            <h3>Constelaciones familiares</h3>
+            <p>Miramos tu sistema, ordenamos roles y activamos movimientos que te devuelven fuerza.</p>
+          </div>
+        </article>
+      </div>
+    </section><section class="about" id="proceso">
+      <div class="bubble">
+        <p class="section-title">Quién te acompaña</p>
+        <h2>Mujer Medicina.</h2>
+        <p>Ser Mujer Medicina es sostener tu proceso con sabiduría ancestral y ciencia energética. Te acompaño a mirar tu historia, honrarla y volver a elegir desde un lugar presente.</p>
+      </div>
+      <div class="bubble">
+        <p class="section-title">Cómo trabajamos</p>
+        <ol style="color:var(--muted); display:flex; flex-direction:column; gap:.9rem; list-style:decimal inside;">
+          <li>Me escribís contando qué te está pasando.</li>
+          <li>Agendamos la charla (videollamada o audio) y te envío el link de pago.</li>
+          <li>Durante la sesión combinamos conversación profunda y lectura de tarot.</li>
+          <li>Recibís una devolución personalizada de la sesión para seguir integrando.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="impacto">
+      <p class="section-title">Resultados frecuentes</p>
+      <div class="impact-grid">
+        <article class="impact-stat">
+          <h3>90%</h3>
+          <p>la mayoría se siente más calma y enfocada después de la primera charla.</p>
+        </article>
+        <article class="impact-stat">
+          <h3>72h</h3>
+          <p>tiempo máximo para recibir tu plan de acción y audio de apoyo.</p>
+        </article>
+        <article class="impact-stat">
+          <h3>24/7</h3>
+          <p>canal abierto por WhatsApp para preguntas y contención.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="contact" id="contacto">
+      <h2>¿Necesitás que te encamine?</h2>
+      <p>Contame por WhatsApp o email qué te está desbordando y armamos una charla lo antes posible. Todo es online y confidencial.</p>
+      <div class="cta">
+        <a class="btn primary" href="https://wa.me/3512550313" target="_blank" rel="noopener">Mensaje directo</a>
+        <a class="btn secondary" href="mailto:bruja@example.com">Enviar email</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>© 2025 PABT Ritual Studio. Todos los derechos reservados.</footer>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
